@@ -90,7 +90,7 @@ class Handler(object):
             if self.lock.locked():
                 self.lock.release()
 
-    def flush(self):
+    def flush(self, caller):
         """
         Flush metrics
 

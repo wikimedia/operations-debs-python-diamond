@@ -335,6 +335,7 @@ class Collector(object):
         ttl = float(self.config['interval']) * float(
             self.config['ttl_multiplier'])
 
+
         # Create Metric
         metric = Metric(path, value, raw_value=raw_value, timestamp=None,
                         precision=precision, host=self.get_hostname(),
