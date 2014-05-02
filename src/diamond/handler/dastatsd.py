@@ -85,7 +85,7 @@ class StatsHandler(Handler):
 
         if caller in self.queues:
             try:
-                for batch in chunks(self.queues[caller], 10):
+                for batch in chunks(self.queues[caller], self.batch_size):
                     self._send(batch)
             finally:
                 self.queues[caller] = []
