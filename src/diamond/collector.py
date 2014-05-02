@@ -339,7 +339,7 @@ class Collector(object):
         # Create Metric
         metric = Metric(path, value, raw_value=raw_value, timestamp=None,
                         precision=precision, host=self.get_hostname(),
-                        metric_type=metric_type, ttl=ttl)
+                        metric_type=metric_type, ttl=ttl, source=self.name)
 
         # Publish Metric
         self.publish_metric(metric)
@@ -439,7 +439,7 @@ class Collector(object):
             # After collector run, invoke a flush
             # method on each handler.
             for handler in self.handlers:
-                handler._flush()
+                handler.flush(self.name)
 
     def find_binary(self, binary):
         """
