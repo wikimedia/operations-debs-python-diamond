@@ -1,4 +1,4 @@
-Source: diamond
+Source: python-diamond
 Section: misc
 Priority: extra
 Maintainer: Rob Smith <kormoc@gmail.com>
@@ -8,7 +8,7 @@ Vcs-Browser: https://github.com/BrightcoveOS/Diamond
 Build-Depends: debhelper (>= 7), python (>= 2.4), python-support, python-mock, python-configobj, cdbs
 Standards-Version: 3.9.1
 
-Package: diamond
+Package: python-diamond
 Architecture: all
 Depends: ${misc:Depends}, ${python:Depends}, python (>= 2.4), python-configobj
 Description: System statistics collector for Graphite.
