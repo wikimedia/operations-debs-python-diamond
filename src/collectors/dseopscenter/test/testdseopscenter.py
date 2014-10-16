@@ -39,7 +39,6 @@ class TestDseOpsCenterCollector(CollectorTestCase):
         urlopen_mock2.stop()
 
         metrics = {
-            'cf-bf-false-positives.dse_system.leases': 0,
             'key-cache-requests': 38.28847822050253,
             'key-cache-hits': 9.114316945274672,
             'nonheap-max': 136314880,
