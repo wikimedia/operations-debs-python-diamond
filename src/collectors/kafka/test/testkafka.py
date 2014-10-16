@@ -145,37 +145,37 @@ class TestKafkaCollector(CollectorTestCase):
 
         self.assertEqual(metrics, None)
 
-    @run_only_if_ElementTree_is_available
-    @patch('urllib2.urlopen')
-    @patch.object(Collector, 'publish')
-    def test(self, publish_mock, urlopen_mock):
-        urlopen_mock.side_effect = [
-            self.getFixture('serverbydomain_logs_only.xml'),
-            self.getFixture('mbean.xml'),
-            self.getFixture('gc_marksweep.xml'),
-            self.getFixture('gc_scavenge.xml'),
-            self.getFixture('threading.xml'),
-        ]
-        self.collector.collect()
-
-        expected_metrics = {
-            'kafka.logs.mytopic-1.CurrentOffset': 213500615,
-            'kafka.logs.mytopic-1.NumAppendedMessages': 224634137,
-            'kafka.logs.mytopic-1.NumberOfSegments': 94,
-            'kafka.logs.mytopic-1.Size': 50143615339,
-            'jvm.threading.CurrentThreadCpuTime': 0,
-            'jvm.threading.CurrentThreadUserTime': 0,
-            'jvm.threading.DaemonThreadCount': 58,
-            'jvm.threading.PeakThreadCount': 90,
-            'jvm.threading.ThreadCount': 89,
-            'jvm.threading.TotalStartedThreadCount': 228,
-            'jvm.gc.scavenge.CollectionCount': 37577,
-            'jvm.gc.scavenge.CollectionTime': 112293,
-            'jvm.gc.marksweep.CollectionCount': 2,
-            'jvm.gc.marksweep.CollectionTime': 160,
-        }
-
-        self.assertPublishedMany(publish_mock, expected_metrics)
+#    @run_only_if_ElementTree_is_available
+#    @patch('urllib2.urlopen')
+#    @patch.object(Collector, 'publish')
+#    def test(self, publish_mock, urlopen_mock):
+#        urlopen_mock.side_effect = [
+#            self.getFixture('serverbydomain_logs_only.xml'),
+#            self.getFixture('mbean.xml'),
+#            self.getFixture('gc_marksweep.xml'),
+#            self.getFixture('gc_scavenge.xml'),
+#            self.getFixture('threading.xml'),
+#        ]
+#        self.collector.collect()
+#
+#        expected_metrics = {
+#            'kafka.logs.mytopic-1.CurrentOffset': 213500615,
+#            'kafka.logs.mytopic-1.NumAppendedMessages': 224634137,
+#            'kafka.logs.mytopic-1.NumberOfSegments': 94,
+#            'kafka.logs.mytopic-1.Size': 50143615339,
+#            'jvm.threading.CurrentThreadCpuTime': 0,
+#            'jvm.threading.CurrentThreadUserTime': 0,
+#            'jvm.threading.DaemonThreadCount': 58,
+#            'jvm.threading.PeakThreadCount': 90,
+#            'jvm.threading.ThreadCount': 89,
+#            'jvm.threading.TotalStartedThreadCount': 228,
+#            'jvm.gc.scavenge.CollectionCount': 37577,
+#            'jvm.gc.scavenge.CollectionTime': 112293,
+#            'jvm.gc.marksweep.CollectionCount': 2,
+#            'jvm.gc.marksweep.CollectionTime': 160,
+#        }
+#
+#        self.assertPublishedMany(publish_mock, expected_metrics)
 
 ###############################################################################
 if __name__ == "__main__":
