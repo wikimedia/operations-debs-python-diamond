@@ -1,0 +1,159 @@
+From: Filippo Giunchedi <fgiunchedi@wikimedia.org>
+Date: Wed, 3 Dec 2014 16:16:14 +0000
+Subject: add transitional dastatsd
+
+this is a transitional copy of stats_d using the same class name so it is a
+full drop-in replacement
+
+Change-Id: I2e9b7b7b721c36192b04701e6828c516dce7ed09
+---
+ src/diamond/handler/dastatsd.py | 140 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 140 insertions(+)
+ create mode 100644 src/diamond/handler/dastatsd.py
+
+diff --git a/src/diamond/handler/dastatsd.py b/src/diamond/handler/dastatsd.py
+new file mode 100644
+index 0000000..770fc0a
+--- /dev/null
++++ b/src/diamond/handler/dastatsd.py
+@@ -0,0 +1,140 @@
++# coding=utf-8
++
++"""
++Transitional copy of stats_d.py
++"""
++
++from Handler import Handler
++import logging
++try:
++    import statsd
++    statsd  # Pyflakes
++except ImportError:
++    statsd = None
++
++
++class StatsHandler(Handler):
++
++    def __init__(self, config=None):
++        """
++        Create a new instance of the StatsHandler class
++        """
++        # Initialize Handler
++        Handler.__init__(self, config)
++        logging.debug("Initialized statsd handler.")
++
++        if not statsd:
++            self.log.error('statsd import failed. Handler disabled')
++            self.enabled = False
++            return
++
++        # Initialize Options
++        self.host = self.config['host']
++        self.port = int(self.config['port'])
++        self.batch_size = int(self.config['batch'])
++        self.metrics = []
++        self.old_values = {}
++
++        # Connect
++        self._connect()
++
++    def get_default_config_help(self):
++        """
++        Returns the help text for the configuration options for this handler
++        """
++        config = super(StatsHandler, self).get_default_config_help()
++
++        config.update({
++            'host': '',
++            'port': '',
++            'batch': '',
++        })
++
++        return config
++
++    def get_default_config(self):
++        """
++        Return the default config for the handler
++        """
++        config = super(StatsHandler, self).get_default_config()
++
++        config.update({
++            'host': '',
++            'port': 1234,
++            'batch': 1,
++        })
++
++        return config
++
++    def process(self, metric):
++        """
++        Process a metric by sending it to statsd
++        """
++
++        self.metrics.append(metric)
++
++        if len(self.metrics) >= self.batch_size:
++            self._send()
++
++    def _send(self):
++        """
++        Send data to statsd. Fire and forget.  Cross fingers and it'll arrive.
++        """
++        if not statsd:
++            return
++        for metric in self.metrics:
++
++            # Split the path into a prefix and a name
++            # to work with the statsd module's view of the world.
++            # It will get re-joined by the python-statsd module.
++            #
++            # For the statsd module, you specify prefix in the constructor
++            # so we just use the full metric path.
++            (prefix, name) = metric.path.rsplit(".", 1)
++            logging.debug("Sending %s %s|g", name, metric.value)
++
++            if metric.metric_type == 'GAUGE':
++                if hasattr(statsd, 'StatsClient'):
++                    self.connection.gauge(metric.path, metric.value)
++                else:
++                    statsd.Gauge(prefix, self.connection).send(
++                        name, metric.value)
++            else:
++                # To send a counter, we need to just send the delta
++                # but without any time delta changes
++                value = metric.raw_value
++                if metric.path in self.old_values:
++                    value = value - self.old_values[metric.path]
++                self.old_values[metric.path] = metric.raw_value
++
++                if hasattr(statsd, 'StatsClient'):
++                    self.connection.incr(metric.path, value)
++                else:
++                    statsd.Counter(prefix, self.connection).increment(
++                        name, value)
++
++        self.metrics = []
++
++    def flush(self):
++        """Flush metrics in queue"""
++        self._send()
++
++    def _connect(self):
++        """
++        Connect to the statsd server
++        """
++        if not statsd:
++            return
++
++        if hasattr(statsd, 'StatsClient'):
++            self.connection = statsd.StatsClient(
++                host=self.host,
++                port=self.port
++            )
++        else:
++            # Create socket
++            self.connection = statsd.Connection(
++                host=self.host,
++                port=self.port,
++                sample_rate=1.0
++            )

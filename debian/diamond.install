@@ -1,0 +1,5 @@
+debian/diamond.conf /etc/diamond/
+debian/tmp/usr/share
+debian/tmp/usr/lib
+debian/tmp/usr/bin
+debian/tmp/etc/diamond

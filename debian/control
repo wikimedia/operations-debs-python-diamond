@@ -1,0 +1,25 @@
+Source: diamond
+Section: python
+Priority: optional
+Maintainer: Filippo Giunchedi <filippo@wikimedia.org>
+Build-Depends: debhelper (>= 9), python-all (>= 2.7), python-mock, python-configobj, dh-python, dh-systemd
+Standards-Version: 3.9.6
+X-Python-Version: >= 2.7
+
+Package: diamond
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}, python-configobj, adduser
+Provides: ${python:Provides}, python-diamond
+Replaces: python-diamond (<= 3.4)
+Breaks: python-diamond (<= 3.4)
+Description: System statistics collector for Graphite
+ Diamond is a daemon and toolset for gathering system statistics
+ and publishing them to Graphite.
+
+Package: python-diamond
+Architecture: all
+Depends: diamond
+Priority: extra
+Section: oldlibs
+Description: transitional package for diamond
+ This is a transitional package for diamond, it can be safely removed.

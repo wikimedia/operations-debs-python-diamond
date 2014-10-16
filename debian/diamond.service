@@ -1,0 +1,9 @@
+[Unit]
+Description=system statistics collector
+
+[Service]
+User=diamond
+ExecStart=/usr/bin/diamond --foreground --skip-fork --skip-pidfile
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,7 @@
+diamond (3.5-1wmf1) trusty; urgency=medium
+
+  * Import upstream 3.5
+    + do not import debian/ directory from upstream, replace with our own
+  * Add transitional package python-diamond
+
+ -- Filippo Giunchedi <filippo@wikimedia.org>  Wed, 15 Oct 2014 16:17:36 +0100

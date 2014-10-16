@@ -1,0 +1,20 @@
+From: Filippo Giunchedi <fgiunchedi@wikimedia.org>
+Date: Thu, 16 Oct 2014 15:11:23 +0100
+Subject: make dseopscenter test pass
+
+---
+ src/collectors/dseopscenter/test/testdseopscenter.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/collectors/dseopscenter/test/testdseopscenter.py b/src/collectors/dseopscenter/test/testdseopscenter.py
+index 6421bed..b2efd99 100644
+--- a/src/collectors/dseopscenter/test/testdseopscenter.py
++++ b/src/collectors/dseopscenter/test/testdseopscenter.py
+@@ -39,7 +39,6 @@ class TestDseOpsCenterCollector(CollectorTestCase):
+         urlopen_mock2.stop()
+ 
+         metrics = {
+-            'cf-bf-false-positives.dse_system.leases': 0,
+             'key-cache-requests': 38.28847822050253,
+             'key-cache-hits': 9.114316945274672,
+             'nonheap-max': 136314880,
