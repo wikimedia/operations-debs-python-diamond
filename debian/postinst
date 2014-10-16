@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    configure)
+        adduser --quiet --system --no-create-home \
+            --home /var/lib/python-diamond diamond
+        install -d -m755 -o diamond -g root /var/log/diamond
+    ;;
+esac
+
+#DEBHELPER#

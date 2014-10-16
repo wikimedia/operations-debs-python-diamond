@@ -1,0 +1,21 @@
+description "Diamond system statistics collector"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on [!12345]
+
+limit nofile 32768 32768
+kill timeout 5
+
+script
+    NAME=diamond
+    DAEMON=/usr/bin/$NAME
+    RUN_AS_USER=diamond
+    DAEMON_ARGS="--skip-pidfile"
+    PIDFILE=/var/run/$NAME.pid
+    PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+    [ -r /etc/default/diamond ] && . /etc/default/diamond
+
+    start-stop-daemon --start --quiet --pidfile $PIDFILE --chuid $RUN_AS_USER \
+        --exec $DAEMON -- $DAEMON_ARGS
+end script

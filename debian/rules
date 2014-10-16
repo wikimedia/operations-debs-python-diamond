@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+
+export PYBUILD_NAME=python-diamond
+%:
+	dh $@ --with python2 --buildsystem python_distutils
+
+override_dh_auto_test:
+	dh_auto_test
+	find src/collectors -type f -iname '*.pyc' -delete
+
+override_dh_auto_install:
+	# override version detection, esp. when building from git
+	dpkg-parsechangelog  -SVersion | cut -d- -f1 > version.txt
+	dh_auto_install
+	rm debian/python-diamond/etc/diamond/diamond.conf.example.windows
+	chmod a-x debian/python-diamond/usr/share/diamond/collectors/elasticsearch/elasticsearch.py
+	chmod a-x debian/python-diamond/usr/share/diamond/collectors/mountstats/mountstats.py
+	rm -rf debian/python-diamond/var
+	rm -rf debian/python-diamond/usr/share/diamond/version.txt
+
+override_dh_installdocs:
+	dh_installdocs
+	rm debian/python-diamond/usr/share/diamond/LICENSE
+	mv debian/python-diamond/usr/share/diamond/README.md debian/python-diamond/usr/share/doc/python-diamond/
+
+override_dh_installinit:
+	dh_installinit --name diamond

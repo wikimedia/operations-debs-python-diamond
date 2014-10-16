@@ -1,0 +1,5 @@
+0001-clean-version-artifacts-in-make-clean.patch
+0002-numa.py-use-usr-bin-env.patch
+0003-numa-use-bin-true-in-tests.patch
+0004-make-dseopscenter-test-pass.patch
+0005-disable-failing-kafka-test.patch

@@ -1,0 +1,21 @@
+From: Filippo Giunchedi <fgiunchedi@wikimedia.org>
+Date: Thu, 16 Oct 2014 14:54:26 +0100
+Subject: numa: use /bin/true in tests
+
+---
+ src/collectors/numa/test/testnuma.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/collectors/numa/test/testnuma.py b/src/collectors/numa/test/testnuma.py
+index d253ba8..bcbb9f3 100644
+--- a/src/collectors/numa/test/testnuma.py
++++ b/src/collectors/numa/test/testnuma.py
+@@ -18,7 +18,7 @@ class TestNumaCollector(CollectorTestCase):
+     def setUp(self):
+         config = get_collector_config('NumaCollector', {
+             'interval': 10,
+-            'bin': '/usr/bin/true'
++            'bin': '/bin/true'
+         })
+ 
+         self.collector = NumaCollector(config, None)
