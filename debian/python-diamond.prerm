@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# dummy prerm, older python-diamond prerm will likely fail and dpkg will
+# fallback to calling this.
+
+#DEBHELPER#

@@ -10,8 +10,7 @@ Package: diamond
 Architecture: all
 Depends: ${misc:Depends}, ${python:Depends}, python-configobj, adduser
 Provides: ${python:Provides}, python-diamond
-Replaces: python-diamond (<= 3.4)
-Breaks: python-diamond (<= 3.4)
+Replaces: python-diamond (<< 3.5-1~)
 Description: System statistics collector for Graphite
  Diamond is a daemon and toolset for gathering system statistics
  and publishing them to Graphite.
