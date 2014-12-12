@@ -9,4 +9,4 @@ env DAEMON_ARGS="--skip-pidfile"
 
 setuid diamond
 
-exec /usr/bin/diamond --foreground --skip-fork $DAEMON_ARGS
+exec /usr/bin/diamond --foreground --skip-fork --log-stdout $DAEMON_ARGS
