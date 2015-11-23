@@ -5,3 +5,4 @@
 0005-disable-failing-kafka-test.patch
 0006-remove-distro-detection-from-setup.py.patch
 0007-add-transitional-dastatsd.patch
+0008-statsd-use-pystatsd-pipeline-to-send-batches.patch

@@ -1,3 +1,10 @@
+diamond (3.5-4) jessie; urgency=medium
+
+  * Send statsd samples in batches
+    debian/patches/0008-statsd-use-pystatsd-pipeline-to-send-batches.patch
+
+ -- Filippo Giunchedi <filippo@wikimedia.org>  Mon, 23 Nov 2015 16:40:59 +0000
+
 diamond (3.5-3) trusty; urgency=medium
 
   * Send log to stdout with upstart and systemd
