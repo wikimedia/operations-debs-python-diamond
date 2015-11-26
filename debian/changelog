@@ -1,3 +1,10 @@
+diamond (3.5-5) jessie; urgency=medium
+
+  * Stop forcing logging to stdout which also forces DEBUG logging level, use
+    configuration instead
+
+ -- Filippo Giunchedi <filippo@wikimedia.org>  Thu, 26 Nov 2015 10:40:39 +0000
+
 diamond (3.5-4) jessie; urgency=medium
 
   * Send statsd samples in batches
