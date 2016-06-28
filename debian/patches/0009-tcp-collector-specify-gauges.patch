@@ -1,0 +1,56 @@
+From: Emanuele Rocca <ema@wikimedia.org>
+Date: Tue, 28 Jun 2016 11:38:35 +0200
+Subject: TCP collector: allow to specify metrics to be published as gauges
+
+Add a new 'gauges' config option to specify which metrics should be published
+as gauges.
+---
+ tcp.py |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/src/collectors/tcp/tcp.py b/src/collectors/tcp/tcp.py
+index 76859fb..4048088 100644
+--- a/src/collectors/tcp/tcp.py
++++ b/src/collectors/tcp/tcp.py
+@@ -187,20 +187,19 @@ class TCPCollector(diamond.collector.Collector):
+         '/proc/net/snmp'
+     ]
+ 
+-    GAUGES = [
+-        'CurrEstab',
+-        'MaxConn',
+-    ]
+-
+     def __init__(self, config, handlers):
+         super(TCPCollector, self).__init__(config, handlers)
+         if self.config['allowed_names'] is None:
+             self.config['allowed_names'] = []
+ 
++        if self.config['gauges'] is None:
++            self.config['gauges'] = []
++
+     def get_default_config_help(self):
+         config_help = super(TCPCollector, self).get_default_config_help()
+         config_help.update({
+             'allowed_names': 'list of entries to collect, empty to collect all',
++            'gauges': 'list of metrics to be published as gauges',
+         })
+         return config_help
+ 
+@@ -216,6 +215,7 @@ class TCPCollector(diamond.collector.Collector):
+             + 'TCPForwardRetrans, TCPSlowStartRetrans, CurrEstab, '
+             + 'TCPAbortOnMemory, TCPBacklogDrop, AttemptFails, '
+             + 'EstabResets, InErrs, ActiveOpens, PassiveOpens',
++            'gauges':    'CurrEstab, MaxConn',
+         })
+         return config
+ 
+@@ -270,7 +270,7 @@ class TCPCollector(diamond.collector.Collector):
+             value = long(metrics[metric_name])
+ 
+             # Publish the metric
+-            if metric_name in self.GAUGES:
++            if metric_name in self.config['gauges']:
+                 self.publish_gauge(metric_name, value, 0)
+             else:
+                 self.publish_counter(metric_name, value, 0)

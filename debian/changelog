@@ -1,3 +1,13 @@
+diamond (3.5-6) jessie; urgency=medium
+
+  * TCP collector: add config option to specify metrics published as gauges
+    debian/patches/0009-tcp-collector-specify-gauges.patch
+  * Add upstream-{branch,tree} to debian/gbp.conf
+  * Bump Standards-Version
+  * Add myself to Uploaders
+
+ -- Emanuele Rocca <ema@wikimedia.org>  Tue, 28 Jun 2016 11:37:00 +0200
+
 diamond (3.5-5) jessie; urgency=medium
 
   * Stop forcing logging to stdout which also forces DEBUG logging level, use
